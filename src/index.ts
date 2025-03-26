@@ -10,7 +10,6 @@ let server: Handler;
 
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
-  await app.init();
 
   const expressApp = app.getHttpAdapter().getInstance();
 
@@ -28,6 +27,7 @@ async function bootstrap(): Promise<Handler> {
   });
 
   app.use(json());
+  await app.init();
 
   return serverlessExpress({ app: expressApp });
 }
