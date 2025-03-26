@@ -1,6 +1,7 @@
 import serverlessExpress from '@codegenie/serverless-express';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, type OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { type Callback, type Context, type Handler } from 'aws-lambda';
 import { json } from 'express';
 import { AppModule } from './app.module';
@@ -15,7 +16,19 @@ async function bootstrap(): Promise<Handler> {
 
   app.useGlobalPipes(new ValidationPipe());
 
+  const config = new DocumentBuilder()
+    .setTitle('Integrator service API documentation')
+    .setDescription('This service manage user authentication and products catalog')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const documentFactory = (): OpenAPIObject => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, documentFactory, {
+    jsonDocumentUrl: '/docs/json',
+  });
+
   app.use(json());
+
   return serverlessExpress({ app: expressApp });
 }
 
