@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { MongoModule } from "./infraestructure/mongodb/mongo.module";
 import { AuthController } from "./infraestructure/http/controller/auth";
 import { EnvironmentModule, EnvironmentService } from "./infraestructure/environment";
@@ -7,12 +7,15 @@ import { AuthServiceAdapter } from "./infraestructure/adapters/auth-service";
 import { PasswordHasherAdapter } from "./infraestructure/adapters/password-hasher";
 import { UserRepositoryAdapter } from "./infraestructure/mongodb/adapters/user-repository";
 import { APP_FILTER } from "@nestjs/core";
-import { SystemErrorExceptionFilter } from "./infraestructure/http/exception-filters/system-error";
+import { SystemErrorExceptionFilter } from "./infraestructure/http/interceptors/system-error";
 import { JWTAdapter } from "./infraestructure/adapters/jwt";
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthGuard } from "./infraestructure/http/exception-filters/auth-guard";
+import { JwtAuthGuard } from "./infraestructure/http/interceptors/auth-guard";
 import { ProductController } from "./infraestructure/http/controller/product";
 import { ProductServiceAdapter } from "./infraestructure/adapters/product-service";
+import { FinancialCoreProxyAdapter } from "./infraestructure/adapters/financial-core";
+import { HttpModule } from "@nestjs/axios";
+import { LoggerMiddleware } from "./infraestructure/http/interceptors/logger";
 
 @Module({
   imports: [
@@ -21,6 +24,7 @@ import { ProductServiceAdapter } from "./infraestructure/adapters/product-servic
       envFilePath: '.env',
     }),
     MongoModule,
+    HttpModule,
     EnvironmentModule,
     JwtModule.registerAsync({
       inject: [EnvironmentService],
@@ -34,9 +38,13 @@ import { ProductServiceAdapter } from "./infraestructure/adapters/product-servic
     })
   ],
   controllers: [AuthController, ProductController],
-  providers: [AuthServiceAdapter, PasswordHasherAdapter, UserRepositoryAdapter, ProductServiceAdapter, JWTAdapter, JwtAuthGuard, {
+  providers: [AuthServiceAdapter, FinancialCoreProxyAdapter, PasswordHasherAdapter, UserRepositoryAdapter, ProductServiceAdapter, JWTAdapter, JwtAuthGuard, {
     provide: APP_FILTER,
     useClass: SystemErrorExceptionFilter,
   }],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

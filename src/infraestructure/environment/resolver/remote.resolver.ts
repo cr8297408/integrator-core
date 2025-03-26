@@ -29,6 +29,7 @@ export class RemoteResolver implements IEnvironment {
       MONGO_URI: '',
       AUTH_JWT_SECRET_KEY: '',
       AUTH_JWT_EXPIRES_IN: '',
+      FINANCIAL_CORE_LAMBDA_FUNCTION: '',
     };
 
     try {
@@ -58,6 +59,9 @@ export class RemoteResolver implements IEnvironment {
 
     if (secretValue.AUTH_JWT_EXPIRES_IN === undefined || secretValue.AUTH_JWT_EXPIRES_IN === '')
       throw new EnvironmentError('AUTH_JWT_EXPIRES_IN');
+
+    if (secretValue.FINANCIAL_CORE_LAMBDA_FUNCTION === undefined || secretValue.FINANCIAL_CORE_LAMBDA_FUNCTION === '')
+      throw new EnvironmentError('FINANCIAL_CORE_LAMBDA_FUNCTION');
 
     return {
       ENVIRONMENT,

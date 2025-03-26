@@ -13,18 +13,25 @@ import { ProductNotFoundError } from "src/core/domain/shared/error/product-not-f
 import { DeleteProductUseCase } from "src/core/application/use-cases/delete-product";
 import { CreateProductDto } from "../http/dto/request/CreateProductDto";
 import { SystemError } from "src/core/domain/shared/error/system";
+import { ValidateProductUseCase } from "src/core/application/use-cases/validate-product";
+import { FinancialCoreProxyAdapter } from "./financial-core";
 
 @Injectable()
 export class ProductServiceAdapter implements ProductServicePort {
     #logger = LoggerInstance
-    constructor(private readonly repository: ProductRepositoryAdapter) {}
+    constructor(private readonly repository: ProductRepositoryAdapter, private readonly financialCore: FinancialCoreProxyAdapter) {}
 
     async create(productInput: CreateProductDto, ownerId: string): Promise<Product> {
+
+        const validateProductUseCase = new ValidateProductUseCase(this.financialCore, this.#logger);
+
+        const validateProduct = await validateProductUseCase.execute(productInput.price);
+
         const createProductUseCase = new CreateProductUseCase(this.repository, this.#logger);
         return await createProductUseCase.execute({
             ...productInput,
-            ownerId
-        });
+            ownerId,
+        }, validateProduct);
     }
     async findAll(pagination: PaginationInput, owner: string): Promise<Omit<IResponseDataHttpList<Product>, 'status'>> {
         const findProductsUseCase = new GetProductsUseCase(this.repository, this.#logger);

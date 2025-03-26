@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { ProductServiceAdapter } from "src/infraestructure/adapters/product-service";
 import { FindAllProductsResponseDto } from "../dto/response/find-all-products";
-import { JwtAuthGuard } from "../exception-filters/auth-guard";
+import { JwtAuthGuard } from "../interceptors/auth-guard";
 import { CurrentUser } from "../decorators/current-user";
 import { ApiBearerAuth, ApiResponse } from "@nestjs/swagger";
 import { PaginationInputDto } from "../dto/request/pagination";
