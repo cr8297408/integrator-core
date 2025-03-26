@@ -1,10 +1,10 @@
-import { EnvironmentError } from 'src/core/domain/shared/error/environment';
 import {
   type IEnvConfig,
   type IEnvironment,
   type IEnvironmentDependency,
   type ServiceApplicationApi,
 } from '../../../core/domain/shared/environment/config';
+import { EnvironmentError } from '../../../core/domain/shared/error/environment';
 export class LocalResolver implements IEnvironment {
   readonly #env: NodeJS.ProcessEnv = process.env;
 

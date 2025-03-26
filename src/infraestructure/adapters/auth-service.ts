@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UserLoginUseCase } from 'src/core/application/use-cases/login-user';
-import { type ILoggerPort } from 'src/core/domain/ports/logger';
 import { JWTAdapter } from './jwt';
 import { PasswordHasherAdapter } from './password-hasher';
 import { GetUserByEmailUseCase } from '../../core/application/use-cases/get-user-by-email';
+import { UserLoginUseCase } from '../../core/application/use-cases/login-user';
 import { RegisterUserUseCase } from '../../core/application/use-cases/resgister-user';
 import { type User } from '../../core/domain/entities/user';
 import {
@@ -12,6 +11,7 @@ import {
   type AuthRegisterUserInformation,
   type AuthServicePort,
 } from '../../core/domain/ports/auth-service';
+import { type ILoggerPort } from '../../core/domain/ports/logger';
 import { UserAlreadyExistError } from '../../core/domain/shared/error/user-already-exist';
 import { UserRepositoryAdapter } from '../mongodb/adapters/user-repository';
 import { LoggerInstance } from '../shared/logger';
@@ -22,7 +22,7 @@ export class AuthServiceAdapter implements AuthServicePort {
     private readonly repository: UserRepositoryAdapter,
     private readonly hasher: PasswordHasherAdapter,
     private readonly jwt: JWTAdapter
-  ) {}
+  ) { }
 
   readonly #logger: ILoggerPort = LoggerInstance;
 

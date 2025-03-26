@@ -17,3 +17,5 @@ bun.lockb
 .qodo
 
 .DS_Store
+
+coverage

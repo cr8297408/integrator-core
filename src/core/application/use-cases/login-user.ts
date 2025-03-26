@@ -14,10 +14,11 @@ export class UserLoginUseCase {
     private readonly hasher: PasswordHasherPort,
     private readonly jwt: JWTPort,
     private readonly logger: ILoggerPort
-  ) {}
+  ) { }
 
   async execute(user: AuthLoginUserInformation): Promise<AuthLoginResponse> {
     this.logger.info('Executing login user use case');
+    if (user.password === "") throw new InvalidPasswordError();
     const getUserByEmailUseCase = new GetUserByEmailUseCase(this.authRepository, this.logger);
     const userExists = await getUserByEmailUseCase.execute(user.email);
 
@@ -34,6 +35,7 @@ export class UserLoginUseCase {
     });
     this.logger.info('Token generated');
     this.logger.info('Login user use case executed');
+    userExists.password = undefined;
     return {
       token,
       user: userExists,

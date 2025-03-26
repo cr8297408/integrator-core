@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CountProductsUseCase } from 'src/core/application/use-cases/count-products';
-import { CreateProductUseCase } from 'src/core/application/use-cases/create-product';
-import { DeleteProductUseCase } from 'src/core/application/use-cases/delete-product';
-import { GetProductByIdUseCase } from 'src/core/application/use-cases/get-product-by-id';
-import { GetProductsUseCase } from 'src/core/application/use-cases/get-products';
-import { UpdateProductUseCase } from 'src/core/application/use-cases/update-product';
-import { ValidateProductUseCase } from 'src/core/application/use-cases/validate-product';
-import { type Product } from 'src/core/domain/entities/product';
-import { type PaginationInput, type ProductServicePort } from 'src/core/domain/ports/product-service';
-import { ProductNotFoundError } from 'src/core/domain/shared/error/product-not-found';
-import { SystemError } from 'src/core/domain/shared/error/system';
-import { type IResponseDataHttpList } from 'src/infraestructure/http/model/response-list';
 import { FinancialCoreProxyAdapter } from './financial-core';
+import { CountProductsUseCase } from '../../core/application/use-cases/count-products';
+import { CreateProductUseCase } from '../../core/application/use-cases/create-product';
+import { DeleteProductUseCase } from '../../core/application/use-cases/delete-product';
+import { GetProductByIdUseCase } from '../../core/application/use-cases/get-product-by-id';
+import { GetProductsUseCase } from '../../core/application/use-cases/get-products';
+import { UpdateProductUseCase } from '../../core/application/use-cases/update-product';
+import { ValidateProductUseCase } from '../../core/application/use-cases/validate-product';
+import { type Product } from '../../core/domain/entities/product';
+import { type PaginationInput, type ProductServicePort } from '../../core/domain/ports/product-service';
+import { ProductNotFoundError } from '../../core/domain/shared/error/product-not-found';
+import { SystemError } from '../../core/domain/shared/error/system';
+import { type IResponseDataHttpList } from '../../infraestructure/http/model/response-list';
 import { type CreateProductDto } from '../http/dto/request/CreateProductDto';
 import { ProductRepositoryAdapter } from '../mongodb/adapters/product-repository';
 import { LoggerInstance } from '../shared/logger';
@@ -22,7 +22,7 @@ export class ProductServiceAdapter implements ProductServicePort {
   constructor(
     private readonly repository: ProductRepositoryAdapter,
     private readonly financialCore: FinancialCoreProxyAdapter
-  ) {}
+  ) { }
 
   async create(productInput: CreateProductDto, ownerId: string): Promise<Product> {
     const validateProductUseCase = new ValidateProductUseCase(this.financialCore, this.#logger);
@@ -48,7 +48,7 @@ export class ProductServiceAdapter implements ProductServicePort {
 
     return {
       data: products,
-      currentPage: Math.floor(pagination.skip / pagination.limit),
+      currentPage: Math.floor(pagination.skip / pagination.limit) + 1,
       totalItems,
       totalPages: Math.ceil(totalItems / pagination.limit),
     };

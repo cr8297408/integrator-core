@@ -6,11 +6,12 @@ export class GetProductByIdUseCase {
   constructor(
     private readonly repository: ProductRepositoryPort,
     private readonly logger: ILoggerPort
-  ) {}
+  ) { }
 
   async execute(id: string, ownerId: string): Promise<Product | null> {
     this.logger.info(`Getting product by id: ${id}`);
     const product = await this.repository.findById(id, ownerId);
+    if (product?.ownerId !== ownerId) return null;
     this.logger.info(`Product by id: ${id} found`);
     return product;
   }

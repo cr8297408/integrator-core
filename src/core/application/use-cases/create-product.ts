@@ -1,12 +1,12 @@
-import { Product, ProductStatus } from 'src/core/domain/entities/product';
-import { type ILoggerPort } from 'src/core/domain/ports/logger';
-import { type ProductRepositoryPort } from 'src/core/domain/ports/product-repository';
+import { Product, ProductStatus } from '../../../core/domain/entities/product';
+import { type ILoggerPort } from '../../../core/domain/ports/logger';
+import { type ProductRepositoryPort } from '../../../core/domain/ports/product-repository';
 
 export class CreateProductUseCase {
   constructor(
     private readonly repository: ProductRepositoryPort,
     private readonly logger: ILoggerPort
-  ) {}
+  ) { }
 
   async execute(productInput: Pick<Product, 'name' | 'price' | 'ownerId'>, validated: boolean): Promise<Product> {
     const product = new Product();

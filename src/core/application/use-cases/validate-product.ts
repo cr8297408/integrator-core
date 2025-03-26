@@ -7,9 +7,9 @@ export class ValidateProductUseCase {
   constructor(
     private readonly productProxy: FinancialCoreProxyPort,
     private readonly logger: ILoggerPort
-  ) {}
+  ) { }
 
-  async execute(price: number) {
+  async execute(price: number): Promise<boolean> {
     this.logger.info('Validating product');
     const validated = await this.productProxy.sendEventValidateProduct(price);
     this.logger.info('Product validated');

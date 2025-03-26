@@ -1,12 +1,12 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
-import { EnvironmentError } from 'src/core/domain/shared/error/environment';
-import { GetSecretError } from 'src/core/domain/shared/error/get-secret';
 import {
   type IEnvConfig,
   type IEnvironment,
   type IEnvironmentDependency,
   type ServiceApplicationApi,
 } from '../../../core/domain/shared/environment/config';
+import { EnvironmentError } from '../../../core/domain/shared/error/environment';
+import { GetSecretError } from '../../../core/domain/shared/error/get-secret';
 import { LoggerInstance } from '../../shared/logger';
 
 type SecretsValuesParameters = ServiceApplicationApi;
