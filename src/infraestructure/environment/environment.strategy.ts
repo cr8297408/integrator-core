@@ -12,7 +12,7 @@ export class EnvironmentStrategy {
     this.#strategy.set('local', new LocalResolver());
     this.#strategy.set('develop', new RemoteResolver());
     this.#strategy.set('qa', new RemoteResolver());
-    this.#strategy.set('beta', new RemoteResolver());
+    this.#strategy.set('staging', new RemoteResolver());
     this.#strategy.set('production', new RemoteResolver());
   }
 

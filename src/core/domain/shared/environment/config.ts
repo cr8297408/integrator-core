@@ -1,4 +1,4 @@
-export type EnvironmentType = 'local' | 'develop' | 'qa' | 'beta' | 'production';
+export type EnvironmentType = 'local' | 'develop' | 'qa' | 'staging' | 'production';
 
 export interface ServiceApplicationApi {
   API_PORT: string;
