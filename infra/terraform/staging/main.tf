@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket = "xell-terraform-states"
-    key    = "accounting_service_stack_beta/terraform.tfstate"
+    key    = "integrator_core_stack_staging/terraform.tfstate"
   }
 }
 
@@ -16,7 +16,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "null_resource" "accounting-service-stack-build-push-docker-beta" {
+resource "null_resource" "accounting-service-stack-build-push-docker-staging" {
   provisioner "local-exec" {
     command = "${path.module}/../image_build_push.sh"
     environment = {
@@ -34,8 +34,8 @@ resource "null_resource" "accounting-service-stack-build-push-docker-beta" {
   }
 }
 
-resource "aws_lambda_function" "accounting_service_stack_lambda_beta" {
-  depends_on    = [null_resource.accounting-service-stack-build-push-docker-beta]
+resource "aws_lambda_function" "accounting_service_stack_lambda_staging" {
+  depends_on    = [null_resource.accounting-service-stack-build-push-docker-staging]
   function_name = local.aws_lambda_api_name
   role          = local.aws_lambda_role_exec
   timeout       = local.aws_lambda_timeout
@@ -54,9 +54,9 @@ resource "aws_lambda_function" "accounting_service_stack_lambda_beta" {
   }
 }
 
-resource "aws_lambda_permission" "accounting_service_stack_lambda_permission_beta" {
+resource "aws_lambda_permission" "accounting_service_stack_lambda_permission_staging" {
   statement_id  = "AllowApiGatewayInvoke"
   action        = local.aws_lambda_permission_action
-  function_name = aws_lambda_function.accounting_service_stack_lambda_beta.function_name
+  function_name = aws_lambda_function.accounting_service_stack_lambda_staging.function_name
   principal     = local.aws_lambda_permission_source
 }
