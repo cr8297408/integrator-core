@@ -47,11 +47,6 @@ resource "aws_lambda_function" "accounting_service_stack_lambda_staging" {
     name        = local.aws_lambda_api_name
     environment = local.environment
   }
-
-  vpc_config {
-    subnet_ids         = local.aws_network_subnet_ids
-    security_group_ids = local.aws_network_security_ids
-  }
 }
 
 resource "aws_lambda_permission" "accounting_service_stack_lambda_permission_staging" {

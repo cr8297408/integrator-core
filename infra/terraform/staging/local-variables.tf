@@ -18,9 +18,6 @@ locals {
   aws_lambda_role_exec         = "arn:aws:iam::${var.aws_account}:role/XellExecutionRoleForLambda-${local.environment}"
   aws_lambda_permission_action = "lambda:InvokeFunction"
   aws_lambda_permission_source = "apigateway.amazonaws.com"
-  # network
-  aws_network_subnet_ids   = ["subnet-09c09c81dd96919f9", "subnet-020aad9c51654cdc9"]
-  aws_network_security_ids = ["sg-0b49e5b0932b4076f"]
   # storage release
   aws_bucket_release_name = "services-releases-package-${local.environment}"
   release_name_zip        = "${local.name}-${local.environment}-${local.current_timestamp}.zip"
