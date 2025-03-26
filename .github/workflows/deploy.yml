@@ -90,6 +90,8 @@ jobs:
         run: |
           echo "ENVIRONMENT=staging" >> .env
           echo "SECRET_NAME_AWS=${{ secrets.SECRET_NAME_AWS }}" >> .env
+          echo "REGION_AWS=${{ secrets.AWS_REGION }}" >> .env
+
 
 
       - name: Set up Terraform
