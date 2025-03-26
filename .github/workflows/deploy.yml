@@ -99,13 +99,13 @@ jobs:
 
       - name: Terraform init
         run: terraform init
-        working-directory: ./terraform/staging
+        working-directory: ./infra/terraform/staging
 
       - name: Terraform Set variables
         run: |
           echo 'aws_account="${{ secrets.AWS_ACCOUNT_ID }}"' >> ./terraform.tfvars
           echo 'aws_region="${{ secrets.AWS_REGION }}"' >> ./terraform.tfvars
-        working-directory: ./terraform/staging
+        working-directory: ./infra/terraform/staging
 
       - uses: actions/cache@v4
         name: Setup cache
@@ -114,7 +114,7 @@ jobs:
           key: ${{ runner.os }}-pr-validation-${{ hashFiles('package-lock.json') }}
       - name: Terraform apply
         run: terraform apply -auto-approve
-        working-directory: ./terraform/staging
+        working-directory: ./infra/terraform/staging
 
   clean:
     needs: [build, deploy]
