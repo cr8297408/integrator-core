@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { ProductRepositoryPort } from "../../../core/domain/ports/product-repository";
-import { Product, ProductStatus } from "../../../core/domain/entities/product";
-import { MongoClientProvider } from "../mongo-client.provider";
-import { PaginationInput } from "src/core/domain/ports/product-service";
-import { ObjectId } from "mongodb";
+import { Injectable } from '@nestjs/common';
+import { ObjectId } from 'mongodb';
+import { type PaginationInput } from 'src/core/domain/ports/product-service';
+import { type Product, ProductStatus } from '../../../core/domain/entities/product';
+import { type ProductRepositoryPort } from '../../../core/domain/ports/product-repository';
+import { MongoClientProvider } from '../mongo-client.provider';
 
 @Injectable()
 export class ProductRepositoryAdapter implements ProductRepositoryPort {
-  private collection = "products";
+  private readonly collection = 'products';
 
   constructor(private readonly mongoClientProvider: MongoClientProvider) {}
 
@@ -18,7 +18,10 @@ export class ProductRepositoryAdapter implements ProductRepositoryPort {
 
   async find(userId: string, pagination: PaginationInput): Promise<Product[]> {
     const db = this.mongoClientProvider.getDatabase();
-    return await db.collection<Product>(this.collection).find({ ownerId: userId, status: ProductStatus.ACTIVE }, { skip: pagination.skip, limit: pagination.limit }).toArray();
+    return await db
+      .collection<Product>(this.collection)
+      .find({ ownerId: userId, status: ProductStatus.ACTIVE }, { skip: pagination.skip, limit: pagination.limit })
+      .toArray();
   }
 
   async findById(id: string, ownerId: string): Promise<Product | null> {
@@ -29,32 +32,32 @@ export class ProductRepositoryAdapter implements ProductRepositoryPort {
     } catch (error) {
       return null;
     }
-    return await db.collection(this.collection).findOne({ 
-      _id: idParsed, 
-      ownerId, 
-      status: ProductStatus.ACTIVE 
-    }) as unknown as Product;
+    return (await db.collection(this.collection).findOne({
+      _id: idParsed,
+      ownerId,
+      status: ProductStatus.ACTIVE,
+    })) as unknown as Product;
   }
 
   async update(product: Partial<Product>): Promise<void> {
     const idParsed = new ObjectId(product._id);
-    delete product._id
-    console.log(product)
+    delete product._id;
+    console.log(product);
     const db = this.mongoClientProvider.getDatabase();
-    await db.collection(this.collection).updateOne(
-      { _id: idParsed },
-      { $set: product }
-    );
+    await db.collection(this.collection).updateOne({ _id: idParsed }, { $set: product });
   }
 
   async delete(id: string): Promise<void> {
     const db = this.mongoClientProvider.getDatabase();
     const idParsed = new ObjectId(id);
-    await db.collection(this.collection).updateOne({ _id: idParsed }, {
-      $set: {
-        status: ProductStatus.INACTIVE
+    await db.collection(this.collection).updateOne(
+      { _id: idParsed },
+      {
+        $set: {
+          status: ProductStatus.INACTIVE,
+        },
       }
-    });
+    );
   }
 
   async count(userId: string): Promise<number> {

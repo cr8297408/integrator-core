@@ -1,6 +1,6 @@
-import { MongoClient, Db } from "mongodb";
-import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import { EnvironmentService } from "../environment";
+import { Injectable, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common';
+import { MongoClient, type Db } from 'mongodb';
+import { EnvironmentService } from '../environment';
 
 @Injectable()
 export class MongoClientProvider implements OnModuleInit, OnModuleDestroy {
@@ -9,7 +9,7 @@ export class MongoClientProvider implements OnModuleInit, OnModuleDestroy {
 
   constructor(private readonly environmentService: EnvironmentService) {}
 
-  async onModuleInit() {
+  async onModuleInit(): Promise<void> {
     const { MONGO_URI, MONGO_DB_NAME } = await this.environmentService.getConfig();
     this.client = new MongoClient(MONGO_URI);
     await this.client.connect();
@@ -20,7 +20,7 @@ export class MongoClientProvider implements OnModuleInit, OnModuleDestroy {
     return this.db;
   }
 
-  async onModuleDestroy() {
+  async onModuleDestroy(): Promise<void> {
     await this.client.close();
   }
 }

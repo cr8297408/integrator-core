@@ -1,13 +1,13 @@
 import { GetSecretValueCommand, SecretsManagerClient } from '@aws-sdk/client-secrets-manager';
-import { LoggerInstance } from '../../shared/logger';
+import { EnvironmentError } from 'src/core/domain/shared/error/environment';
+import { GetSecretError } from 'src/core/domain/shared/error/get-secret';
 import {
   type IEnvConfig,
   type IEnvironment,
   type IEnvironmentDependency,
   type ServiceApplicationApi,
 } from '../../../core/domain/shared/environment/config';
-import { GetSecretError } from 'src/core/domain/shared/error/get-secret';
-import { EnvironmentError } from 'src/core/domain/shared/error/environment';
+import { LoggerInstance } from '../../shared/logger';
 
 type SecretsValuesParameters = ServiceApplicationApi;
 
@@ -48,8 +48,7 @@ export class RemoteResolver implements IEnvironment {
       throw new GetSecretError();
     }
 
-    if (secretValue.MONGO_URI === undefined || secretValue.MONGO_URI === '')
-      throw new EnvironmentError('MONGO_URI');
+    if (secretValue.MONGO_URI === undefined || secretValue.MONGO_URI === '') throw new EnvironmentError('MONGO_URI');
 
     if (secretValue.MONGO_DB_NAME === undefined || secretValue.MONGO_DB_NAME === '')
       throw new EnvironmentError('MONGO_DB_NAME');

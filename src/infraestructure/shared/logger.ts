@@ -1,4 +1,4 @@
-import { ILoggerPort } from 'src/core/domain/ports/logger';
+import { type ILoggerPort } from 'src/core/domain/ports/logger';
 import { createLogger, transports, format, type Logger as WLogger } from 'winston';
 
 class Logger implements ILoggerPort {

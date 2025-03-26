@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { UserRepositoryPort } from "../../../core/domain/ports/user-repository";
-import { MongoClientProvider } from "../mongo-client.provider";
-import { User } from "../../../core/domain/entities/user";
+import { Injectable } from '@nestjs/common';
+import { type User } from '../../../core/domain/entities/user';
+import { type UserRepositoryPort } from '../../../core/domain/ports/user-repository';
+import { MongoClientProvider } from '../mongo-client.provider';
 
 @Injectable()
 export class UserRepositoryAdapter implements UserRepositoryPort {
-  private collection = "users";
+  private readonly collection = 'users';
 
   constructor(private readonly mongoClientProvider: MongoClientProvider) {}
 

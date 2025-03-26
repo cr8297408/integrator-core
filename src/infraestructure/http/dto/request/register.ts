@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MinLength } from 'class-validator';
-import { AuthRegisterUserInformation } from '../../../../core/domain/ports/auth-service';
+import { type AuthRegisterUserInformation } from '../../../../core/domain/ports/auth-service';
 
 export class AuthRegisterUserInformationDto implements AuthRegisterUserInformation {
   @IsEmail({}, { message: 'email must be a valid email address' })

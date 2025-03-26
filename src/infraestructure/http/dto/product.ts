@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUUID, IsString, IsNumber, IsBoolean, IsEnum } from 'class-validator';
-import { Product, ProductStatus } from 'src/core/domain/entities/product';
+import { type Product, ProductStatus } from 'src/core/domain/entities/product';
 import { User } from 'src/core/domain/entities/user';
 
 export class ProductDto implements Product {

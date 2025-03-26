@@ -1,23 +1,20 @@
-import { RegisterResponseDto } from "src/infraestructure/http/dto/response/register";
-import { IResponseDataHttp } from "src/infraestructure/http/model/response";
-import { User } from "../entities/user";
-
+import { type User } from '../entities/user';
 
 export interface AuthLoginUserInformation {
-    email: string; 
-    password: string
+  email: string;
+  password: string;
 }
 
 export interface AuthRegisterUserInformation extends AuthLoginUserInformation {
-    fullName: string;
+  fullName: string;
 }
 
 export interface AuthLoginResponse {
-    token: string;
-    user: User
+  token: string;
+  user: User;
 }
 
 export interface AuthServicePort {
-    login(user: AuthLoginUserInformation): Promise<AuthLoginResponse>;
-    register(user: AuthRegisterUserInformation): Promise<User>;
+  login: (user: AuthLoginUserInformation) => Promise<AuthLoginResponse>;
+  register: (user: AuthRegisterUserInformation) => Promise<User>;
 }

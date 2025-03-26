@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { type EnvironmentType, type IEnvConfig } from '../../core/domain/shared/environment/config';
 import { EnvironmentStrategy } from './environment.strategy';
+import { type EnvironmentType, type IEnvConfig } from '../../core/domain/shared/environment/config';
 
 @Injectable()
 export class EnvironmentService {

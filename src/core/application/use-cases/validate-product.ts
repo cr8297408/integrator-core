@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from 'src/core/domain/entities/product';
 import { FinancialCoreProxyPort } from 'src/core/domain/ports/financial-core-proxy';
 import { ILoggerPort } from 'src/core/domain/ports/logger';
 

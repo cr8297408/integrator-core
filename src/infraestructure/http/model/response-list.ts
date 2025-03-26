@@ -1,7 +1,7 @@
-import { IResponseDataHttp } from "./response";
+import { type IResponseDataHttp } from './response';
 
 export interface IResponseDataHttpList<T> extends IResponseDataHttp<T[]> {
-    currentPage: number;
-    totalItems?: number;
-    totalPages: number;
+  currentPage: number;
+  totalItems?: number;
+  totalPages: number;
 }

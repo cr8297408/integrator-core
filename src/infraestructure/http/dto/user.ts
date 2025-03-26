@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, IsUUID, IsDate } from 'class-validator';
-import { User } from 'src/core/domain/entities/user';
+import { IsEmail, IsString, IsDate } from 'class-validator';
+import { type User } from 'src/core/domain/entities/user';
 
 export class UserDto implements Omit<User, 'password'> {
   @IsString({
-    message: 'id must be a string'
+    message: 'id must be a string',
   })
   @ApiProperty({
     type: 'string',

@@ -1,5 +1,5 @@
-import { IEnvConfig } from "../shared/environment/config";
+import { type IEnvConfig } from '../shared/environment/config';
 
 export interface EnvironmentPort {
-    getConfig(): Promise<IEnvConfig>;
+  getConfig: () => Promise<IEnvConfig>;
 }

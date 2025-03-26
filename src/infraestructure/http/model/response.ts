@@ -1,11 +1,11 @@
-import { HttpStatus } from "@nestjs/common";
+import { type HttpStatus } from '@nestjs/common';
 
 export interface IResponseDataHttp<T> {
-    status: Status;
-    data: T;
+  status: Status;
+  data: T;
 }
 
 export interface Status {
-    code: HttpStatus;
-    message: string;
+  code: HttpStatus;
+  message: string;
 }

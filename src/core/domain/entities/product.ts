@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { type User } from './user';
 
 export class Product {
   _id: string;
@@ -11,7 +11,7 @@ export class Product {
   createdAt: Date;
 }
 
-export enum ProductStatus { 
+export enum ProductStatus {
   ACTIVE = 'active',
-  INACTIVE = 'inactive'
-};
+  INACTIVE = 'inactive',
+}

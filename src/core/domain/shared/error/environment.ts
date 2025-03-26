@@ -1,5 +1,4 @@
-import { KindError, SystemError } from "./system";
-
+import { KindError, SystemError } from './system';
 
 export class EnvironmentError extends SystemError {
   constructor(environmentName: string) {
