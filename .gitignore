@@ -1,0 +1,17 @@
+# compiled output
+/dist
+/node_modules
+
+# Logs
+logs
+
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+terraform/**/*.zip
+
+.env
+.env.local
+
+bun.lockb
+.qodo
