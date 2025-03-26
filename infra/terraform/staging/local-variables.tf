@@ -15,7 +15,7 @@ locals {
   aws_lambda_timeout = 60 * 2
   aws_lambda_memory  = 512
   # permissions
-  aws_lambda_role_exec         = "arn:aws:iam::${var.aws_account}:role/XellExecutionRoleForLambda-${local.environment}"
+  aws_lambda_role_exec         = "arn:aws:iam::356530442578:role/XellExecutionRoleForLambda"
   aws_lambda_permission_action = "lambda:InvokeFunction"
   aws_lambda_permission_source = "apigateway.amazonaws.com"
   # storage release
