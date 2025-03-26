@@ -4,8 +4,7 @@ import {
   type IEnvironment,
   type IEnvironmentDependency,
   type ServiceApplicationApi,
-} from '../environment.interfaces';
-
+} from '../../../core/domain/shared/environment/config';
 export class LocalResolver implements IEnvironment {
   readonly #env: NodeJS.ProcessEnv = process.env;
 
@@ -16,14 +15,20 @@ export class LocalResolver implements IEnvironment {
       API_PORT: '',
       MONGO_URI: '',
       MONGO_DB_NAME: '',
+      AUTH_JWT_SECRET_KEY: '',
+      AUTH_JWT_EXPIRES_IN: '',
     };
 
     serviceApplicationApi.API_PORT = this.#env.API_PORT ?? '';
     serviceApplicationApi.MONGO_URI = this.#env.MONGO_URI ?? '';
     serviceApplicationApi.MONGO_DB_NAME = this.#env.MONGO_DB_NAME ?? '';
+    serviceApplicationApi.AUTH_JWT_SECRET_KEY = this.#env.AUTH_JWT_SECRET_KEY ?? '';
+    serviceApplicationApi.AUTH_JWT_EXPIRES_IN = this.#env.AUTH_JWT_EXPIRES_IN ?? '';
     if (serviceApplicationApi.API_PORT === '') throw new EnvironmentError('API_PORT');
     if (serviceApplicationApi.MONGO_URI === '') throw new EnvironmentError('MONGO_URI');
     if (serviceApplicationApi.MONGO_DB_NAME === '') throw new EnvironmentError('MONGO_DB_NAME');
+    if (serviceApplicationApi.AUTH_JWT_SECRET_KEY === '') throw new EnvironmentError('AUTH_JWT_SECRET_KEY');
+    if (serviceApplicationApi.AUTH_JWT_EXPIRES_IN === '') throw new EnvironmentError('AUTH_JWT_EXPIRES_IN');
 
     return {
       ENVIRONMENT,

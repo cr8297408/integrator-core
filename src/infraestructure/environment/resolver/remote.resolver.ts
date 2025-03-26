@@ -5,7 +5,7 @@ import {
   type IEnvironment,
   type IEnvironmentDependency,
   type ServiceApplicationApi,
-} from '../environment.interfaces';
+} from '../../../core/domain/shared/environment/config';
 import { GetSecretError } from 'src/core/domain/shared/error/get-secret';
 import { EnvironmentError } from 'src/core/domain/shared/error/environment';
 
@@ -27,6 +27,8 @@ export class RemoteResolver implements IEnvironment {
       API_PORT: '',
       MONGO_DB_NAME: '',
       MONGO_URI: '',
+      AUTH_JWT_SECRET_KEY: '',
+      AUTH_JWT_EXPIRES_IN: '',
     };
 
     try {
@@ -50,6 +52,12 @@ export class RemoteResolver implements IEnvironment {
 
     if (secretValue.MONGO_DB_NAME === undefined || secretValue.MONGO_DB_NAME === '')
       throw new EnvironmentError('MONGO_DB_NAME');
+
+    if (secretValue.AUTH_JWT_SECRET_KEY === undefined || secretValue.AUTH_JWT_SECRET_KEY === '')
+      throw new EnvironmentError('AUTH_JWT_SECRET_KEY');
+
+    if (secretValue.AUTH_JWT_EXPIRES_IN === undefined || secretValue.AUTH_JWT_EXPIRES_IN === '')
+      throw new EnvironmentError('AUTH_JWT_EXPIRES_IN');
 
     return {
       ENVIRONMENT,

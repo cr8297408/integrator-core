@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type EnvironmentType, type IEnvironment } from './environment.interfaces';
+import { type EnvironmentType, type IEnvironment } from '../../core/domain/shared/environment/config';
 import { LocalResolver, RemoteResolver } from './resolver';
 import { StrategyError } from '../../core/domain/shared/error/strategy';
 

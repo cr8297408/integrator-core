@@ -15,3 +15,5 @@ terraform/**/*.zip
 
 bun.lockb
 .qodo
+
+.DS_Store
