@@ -8,14 +8,16 @@ import { UserRepositoryAdapter } from "../mongodb/adapters/user-repository";
 import { PasswordHasherAdapter } from "./password-hasher";
 import { UserLoginUseCase } from "src/core/application/use-cases/login-user";
 import { JWTAdapter } from "./jwt";
+import { LoggerInstance } from "../shared/logger";
+import { ILoggerPort } from "src/core/domain/ports/logger";
 
 @Injectable()
-export class AuthService implements AuthServicePort {
-    
+export class AuthServiceAdapter implements AuthServicePort {
     constructor(private repository: UserRepositoryAdapter, private hasher: PasswordHasherAdapter, private jwt: JWTAdapter) {}
+    #logger: ILoggerPort = LoggerInstance;
 
     async login(user: AuthLoginUserInformation): Promise<AuthLoginResponse> {
-        const userLogin = new UserLoginUseCase(this.repository, this.hasher, this.jwt);
+        const userLogin = new UserLoginUseCase(this.repository, this.hasher, this.jwt, this.#logger);
         const userLogged = await userLogin.execute({
             email: user.email,
             password: user.password
@@ -24,12 +26,12 @@ export class AuthService implements AuthServicePort {
     }
 
     async register(user: AuthRegisterUserInformation): Promise<User> {
-        const getUserByEmailUseCase = new GetUserByEmailUseCase(this.repository);
+        const getUserByEmailUseCase = new GetUserByEmailUseCase(this.repository, this.#logger);
         const userExists = await getUserByEmailUseCase.execute(user.email);
         if (userExists !== null) {
             throw new UserAlreadyExistError(user.email);
         }
-        const createUserUseCase = new RegisterUserUseCase(this.repository, this.hasher);
+        const createUserUseCase = new RegisterUserUseCase(this.repository, this.hasher, this.#logger);
         const userCreated = await createUserUseCase.execute({
             email: user.email,
             password: user.password,

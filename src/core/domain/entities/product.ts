@@ -1,13 +1,17 @@
 import { User } from "./user";
 
 export class Product {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   ownerId: string;
   owner: User;
   isValidated: boolean;
   status: ProductStatus;
+  createdAt: Date;
 }
 
-export type ProductStatus = 'active' | 'inactive';
+export enum ProductStatus { 
+  ACTIVE = 'active',
+  INACTIVE = 'inactive'
+};

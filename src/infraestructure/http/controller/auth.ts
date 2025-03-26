@@ -1,15 +1,14 @@
 import { Body, Controller, HttpStatus, Post } from "@nestjs/common";
-import { AuthService } from "../../adapters/auth-service";
-import { User } from "../../../core/domain/entities/user";
-import { AuthRegisterUserInformationDto } from "../dto/register";
-import { AuthLoginUserInformationDto } from "../dto/login";
+import { AuthServiceAdapter } from "../../adapters/auth-service";
+import { AuthRegisterUserInformationDto } from "../dto/request/register";
+import { AuthLoginUserInformationDto } from "../dto/request/login";
 import { ApiResponse } from "@nestjs/swagger";
 import { RegisterResponseDto } from "../dto/response/register";
 import { LoginResponseDto } from "../dto/response/login";
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthServiceAdapter) {}
 
     @Post('register')
     @ApiResponse(

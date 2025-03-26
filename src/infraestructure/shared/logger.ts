@@ -1,13 +1,7 @@
+import { ILoggerPort } from 'src/core/domain/ports/logger';
 import { createLogger, transports, format, type Logger as WLogger } from 'winston';
 
-export interface ILogger {
-  info: (message: string) => void;
-  debug: (message: string) => void;
-  warn: (message: string) => void;
-  error: (message: string) => void;
-}
-
-class Logger implements ILogger {
+class Logger implements ILoggerPort {
   private static _instance: Logger;
   private readonly loggerInstance: WLogger;
 

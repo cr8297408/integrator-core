@@ -9,7 +9,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
 
   constructor(private readonly mongoClientProvider: MongoClientProvider) {}
 
-  async save(user: User): Promise<void> {
+  async save(user: Omit<User, '_id'>): Promise<void> {
     const db = this.mongoClientProvider.getDatabase();
     await db.collection(this.collection).insertOne(user);
   }

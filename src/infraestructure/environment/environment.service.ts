@@ -12,7 +12,6 @@ export class EnvironmentService {
 
   async getConfig(): Promise<IEnvConfig> {
     const ENVIRONMENT = this.configService.get('ENVIRONMENT') as EnvironmentType;
-    console.info(`🚀 ~ file: environment.service.ts:15 ~ EnvironmentService ~ getConfig ~ ENVIRONMENT:`, ENVIRONMENT);
     return await this.environmentStrategy.get(ENVIRONMENT).setup({ ENVIRONMENT });
   }
 }

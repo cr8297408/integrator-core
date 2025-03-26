@@ -16,6 +16,7 @@ async function bootstrap(): Promise<void> {
     .setTitle('Integrator service API documentation')
     .setDescription('This service manage user authentication and products catalog')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = (): OpenAPIObject => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory, {

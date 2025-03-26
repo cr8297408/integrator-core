@@ -3,13 +3,15 @@ import { IsEmail, IsString, IsUUID, IsDate } from 'class-validator';
 import { User } from 'src/core/domain/entities/user';
 
 export class UserDto implements Omit<User, 'password'> {
-  @IsUUID('4', { message: 'id must be a valid UUID V4' })
+  @IsString({
+    message: 'id must be a string'
+  })
   @ApiProperty({
     type: 'string',
     description: 'Unique identifier of the user.',
-    example: 'a3f23b34-6d91-4b9b-9a1c-2f4e3f9b8e7d',
+    example: '67e3829a762b27295c568b46',
   })
-  id: string;
+  _id: string;
 
   @IsEmail({}, { message: 'email must be a valid email address' })
   @ApiProperty({
