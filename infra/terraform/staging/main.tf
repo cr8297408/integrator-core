@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "xell-terraform-states"
+    bucket = "terraform-states-coder"
     key    = "integrator_core_stack_staging/terraform.tfstate"
   }
 }
