@@ -83,7 +83,7 @@ El servicio está desplegado en AWS Lambda con las siguientes URLs:
 
 API Principal: <https://dtzxkhyjzcykop72jkelsvb7pa0tmprp.lambda-url.us-east-1.on.aws/>
 
-Servicio de Validación de Productos: <https://cqls5huae4r26kr3bdfmreaslq0fikci.lambda-url.us-east-1.on.aws/docs>
+Servicio de Validación de Productos: <https://dtzxkhyjzcykop72jkelsvb7pa0tmprp.lambda-url.us-east-1.on.aws/docs>
 
 🔹 Despliegue con Serverless Framework
 
