@@ -1,17 +1,17 @@
 import { type ILoggerPort } from 'src/core/domain/ports/logger';
 import { User } from '../../domain/entities/user';
+import { type AuthRegisterUserInformation } from '../../domain/ports/auth-service';
 import { type PasswordHasherPort } from '../../domain/ports/password-hasher';
 import { type UserRepositoryPort } from '../../domain/ports/user-repository';
-import { type RegisterDto } from '../dto/register';
 
 export class RegisterUserUseCase {
   constructor(
     private readonly authRepository: UserRepositoryPort,
     private readonly hasher: PasswordHasherPort,
     private readonly logger: ILoggerPort
-  ) {}
+  ) { }
 
-  async execute(dto: RegisterDto): Promise<User> {
+  async execute(dto: AuthRegisterUserInformation): Promise<User> {
     this.logger.info('Executing register user use case');
     const hashedPassword = await this.hasher.hash(dto.password);
     this.logger.info('Password hashed');
