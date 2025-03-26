@@ -20,9 +20,7 @@ jobs:
 
       - name: Install
         run: |
-          npm config set @xell-shop:registry https://npm.pkg.github.com
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PIPELINE_TOKEN }}" >> ~/.npmrc
-          npm ci --force
+          npm ci
 
       - uses: actions/cache@v4
         name: Setup cache
@@ -44,13 +42,6 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-pr-validation-${{ hashFiles('package-lock.json') }}
-
-      - name: Prisma migrate Preview
-        id: prisma-preview
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
-        run: npx prisma migrate deploy
 
   build:
     needs: [install]
