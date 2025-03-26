@@ -1,0 +1,67 @@
+name: code-validation
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install
+        run: |
+          npm config set @xell-shop:registry https://npm.pkg.github.com
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.PIPELINE_TOKEN }}" >> ~/.npmrc
+          npm ci --force
+
+      - uses: actions/cache@v4
+        name: Setup cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pr-validation-${{ hashFiles('package-lock.json') }}
+
+  aws-database:
+    needs: [install]
+    environment: preview
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        name: Setup cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pr-validation-${{ hashFiles('package-lock.json') }}
+
+      - name: Prisma migrate Preview
+        id: prisma-preview
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SHADOW_DATABASE_URL: ${{ secrets.SHADOW_DATABASE_URL }}
+        run: npx prisma migrate deploy
+
+  build:
+    needs: [install]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        name: Setup cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pr-validation-${{ hashFiles('package-lock.json') }}
+
+      - name: Build
+        run: npm run build
