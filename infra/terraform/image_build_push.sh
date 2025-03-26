@@ -2,7 +2,7 @@
 # Si falla se detiene el script
 set -e
 
-cd ../..
+cd ../../..
 
 #Variables
 NODE_ENV=${NODE_ENV}
