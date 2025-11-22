@@ -4,7 +4,7 @@
 
 El **Integrator Service** es un servicio basado en **NestJS** mediante una arquitectura modular y escalable. Utiliza **MongoDB** como base de datos y se compone de múltiples capas organizadas en **API Layer, Core Domain e Infrastructure**.
 
-## 📂 Estructura del Proyecto
+## 📂 Estructura del Proyecto 
 
 ```
 📦 integrator-service
